@@ -78,6 +78,7 @@ __*When adding an employee, the following details are entered:*__
 
 __*Main scenario:*__
 - User clicks on the employee's name in the employees list view mode;
+- On the employee's page user click button `Edit';
 - Application displays form to enter new employee data with default values from old employee data;
 - User change data and presses `Save` button;
 - If any data is entered incorrectly, incorrect data messages are displayed;
@@ -163,6 +164,7 @@ __*When adding an department, the following details are entered:*__
 
 __*Main scenario:*__
 - User clicks on the department's name in the departments list view mode;
+- On the department's page user click button `Edit`;
 - Application displays form to enter new department data with default values from old department's data;
 - User change data and presses `Save` button;
 - If any data is entered incorrectly, incorrect data messages are displayed;
