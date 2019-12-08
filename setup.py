@@ -1,3 +1,5 @@
+"""File to process setup of this application"""
+
 from distutils.core import setup
 
 setup(name='Department-app',
