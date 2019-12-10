@@ -26,10 +26,10 @@ class TestDataBase(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.database = DataBase('sqlite:///')
-        for employee in EMPLOYEES:
-            cls.database.insert(employee)
         for department in DEPARTMENTS:
             cls.database.insert(department)
+        for employee in EMPLOYEES:
+            cls.database.insert(employee)
 
     def test_simple_get(self):
         """Test case to check getting all entities from DB"""

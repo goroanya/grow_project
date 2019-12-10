@@ -7,7 +7,6 @@ from models import BaseClass
 
 class DataBase:
     """Class to work with DB"""
-
     def __init__(self, db_url):
         engine = create_engine(db_url)
         BaseClass.metadata.create_all(engine)
