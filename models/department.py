@@ -16,15 +16,3 @@ class Department(BaseClass):
 
     def __init__(self, name):
         self.name = name
-
-    def serialize(self):
-        """Return department data in easily serializable format"""
-        return {
-            'department_id': self.department_id,
-            'name': self.name
-        }
-
-    @staticmethod
-    def serialize_list(departments):
-        """Return list of serialized departments"""
-        return [department.serialize() for department in departments]

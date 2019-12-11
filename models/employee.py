@@ -20,18 +20,3 @@ class Employee(BaseClass):
         self.date_of_birth = date_of_birth
         self.salary = salary
         self.department_id = department_id
-
-    def serialize(self):
-        """Return employee data in easily serializable format"""
-        return {
-            'employee_id': self.employee_id,
-            'name': self.name,
-            'date_of_birth': str(self.date_of_birth),
-            'salary': self.salary,
-            'department_id': self.department_id
-        }
-
-    @staticmethod
-    def serialize_list(departments):
-        """Return list of serialized employees"""
-        return [department.serialize() for department in departments]
