@@ -1,4 +1,6 @@
 """Module with department class"""
+import datetime
+
 from sqlalchemy import Column, Integer, String, Date, ForeignKey
 
 from models.base import BaseClass
@@ -17,6 +19,15 @@ class Employee(BaseClass):
 
     def __init__(self, name, date_of_birth, salary, department_id):
         self.name = name
-        self.date_of_birth = date_of_birth
+        if isinstance(date_of_birth, datetime.date):
+            self.date_of_birth = date_of_birth
+        else:
+            self.date_of_birth = Employee.date_from_str(date_of_birth)
         self.salary = salary
         self.department_id = department_id
+
+    @staticmethod
+    def date_from_str(str_object):
+        """Convert string to date"""
+        year, month, day = str(str_object).split('-')
+        return datetime.date(int(year), int(month), int(day))

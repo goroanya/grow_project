@@ -1,9 +1,10 @@
 """Module contains universal class for data manipulating in DB"""
+import datetime
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from models import BaseClass
-
+from models import BaseClass, Employee
 
 class DataBase:
     """Class to work with DB"""
@@ -35,11 +36,15 @@ class DataBase:
         self.session.add(obj)
         self.session.commit()
 
-    def update(self, cls, criterion, **new_values):
+    def update(self, cls, criterion, date_of_birth=None, **new_values):
         """Update"""
+        if date_of_birth and not isinstance(date_of_birth, datetime.date):
+            date_of_birth = Employee.date_from_str(date_of_birth)
         for obj in self.session.query(cls).filter(criterion):
             for key, value in new_values.items():
                 setattr(obj, key, value)
+            if date_of_birth:
+                setattr(obj, 'date_of_birth', date_of_birth)
         self.session.commit()
 
     def delete(self, cls, criterion):

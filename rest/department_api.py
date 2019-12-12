@@ -1,6 +1,7 @@
 """Module with resource classes for department"""
 from flask_restful import Resource, marshal_with, fields
 from flask import request
+from flask_api import status
 
 from models import Department
 from rest.base_api import BaseAPI
@@ -11,7 +12,7 @@ _DEPARTMENT_FIELDS = {
 }
 
 
-class DepartmentListBaseAPI(Resource, BaseAPI):
+class DepartmentListAPI(Resource, BaseAPI):
     """Resource class for getting department list"""
 
     @BaseAPI._handle_error
@@ -26,10 +27,10 @@ class DepartmentListBaseAPI(Resource, BaseAPI):
         """Create new department"""
         department = Department(**request.form)
         self._database.insert(department)
-        return None, 200
+        return {'success': True}
 
 
-class DepartmentBaseAPI(Resource, BaseAPI):
+class DepartmentAPI(Resource, BaseAPI):
     """Resource class to work with single department"""
 
     @BaseAPI._handle_error
@@ -39,18 +40,20 @@ class DepartmentBaseAPI(Resource, BaseAPI):
         criterion = Department.department_id == department_id
         department = self._database.get_one(cls=Department,
                                             criterion=criterion)
-        return department
+        if department:
+            return department
+        return {'success': False}, status.HTTP_404_NOT_FOUND
 
     @BaseAPI._handle_error
     def put(self, department_id):
         """Update department"""
         criterion = Department.department_id == department_id
         self._database.update(Department, criterion, **request.form)
-        return None, 200
+        return {'success': True}
 
     @BaseAPI._handle_error
     def delete(self, department_id):
         """Update department"""
         criterion = Department.department_id == department_id
         self._database.delete(Department, criterion)
-        return None, 200
+        return {'success': True}

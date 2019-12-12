@@ -130,9 +130,11 @@ class TestDataBase(unittest.TestCase):
         old_name = employee.name
 
         id_criterion = Employee.employee_id == employee.employee_id
-        self.database.update(Employee, id_criterion, name=new_name)
+        self.database.update(Employee, id_criterion, name=new_name,
+                             date_of_birth='2010-5-24')
         updated = self.database.get_one(cls=Employee, criterion=id_criterion)
         self.assertEqual(updated.name, new_name)
+        self.assertEqual(updated.date_of_birth, date(2010, 5, 24))
 
         self.database.update(Employee, id_criterion, name=old_name)
         updated = self.database.get_one(cls=Employee, criterion=id_criterion)

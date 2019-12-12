@@ -7,3 +7,5 @@ min-public-methods=0
 
 # Maximum number of characters on a single line.
 max-line-length=80
+
+disable=broad-except

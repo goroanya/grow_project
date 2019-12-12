@@ -11,5 +11,9 @@ Create a simple web application for managing departments and employees. The web 
 2. display a list of employees in the departments with an indication of the salary for each employee and a search field to search for employees born on a certain date or in the period between dates
 3. change (add / edit / delete) the above data
 
+## REST API
+To run server use:
+`gunicorn -c gunicorn_conf.py server:app`
+
 Author: Ihor Bulaievskyi ([telegram](https://t.me/traumgedanken))
 

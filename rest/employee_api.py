@@ -1,9 +1,11 @@
 """Module with resource classes for department"""
 from flask_restful import Resource, marshal_with, fields
 from flask import request
+from flask_api import status
 
 from models import Employee
 from rest.base_api import BaseAPI
+
 
 _EMPLOYEE_FIELDS = {
     'employee_id': fields.Integer,
@@ -14,7 +16,7 @@ _EMPLOYEE_FIELDS = {
 }
 
 
-class EmployeeListBaseAPI(Resource, BaseAPI):
+class EmployeeListAPI(Resource, BaseAPI):
     """Resource class for getting department list"""
 
     @BaseAPI._handle_error
@@ -29,10 +31,10 @@ class EmployeeListBaseAPI(Resource, BaseAPI):
         """Create new employee"""
         employee = Employee(**request.form)
         self._database.insert(employee)
-        return None, 200
+        return {'success': True}
 
 
-class EmployeeBaseAPI(Resource, BaseAPI):
+class EmployeeAPI(Resource, BaseAPI):
     """Resource class to work with single employee"""
 
     @BaseAPI._handle_error
@@ -42,18 +44,20 @@ class EmployeeBaseAPI(Resource, BaseAPI):
         criterion = Employee.employee_id == employee_id
         employee = self._database.get_one(cls=Employee,
                                           criterion=criterion)
-        return employee
+        if employee:
+            return employee
+        return {'success': False}, status.HTTP_404_NOT_FOUND
 
     @BaseAPI._handle_error
     def put(self, employee_id):
         """Update employee"""
         criterion = Employee.employee_id == employee_id
         self._database.update(Employee, criterion, **request.form)
-        return None, 200
+        return {'success': True}
 
     @BaseAPI._handle_error
     def delete(self, employee_id):
         """Update employee"""
         criterion = Employee.employee_id == employee_id
         self._database.delete(Employee, criterion)
-        return None, 200
+        return {'success': True}
