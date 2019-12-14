@@ -14,7 +14,13 @@
   {% for e in employees %}
     <tr>
       <td>
-        <button type="button" class="btn btn-danger btn-sm">Delete</button>
+        {% set type = "employees" %}
+        {% set id = e.employee_id %}
+        {% set name = e.name %}
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_{{ id }}">
+          Delete
+        </button>
+        {% include "modal.html" %}
       </td>
       <td><a class="text-dark" href="/employees/{{ e.employee_id }}">{{ e.name }}</a></td>
       <td><a class="text-dark" href="/departments/{{ e.department_id }}">{{ e.department_name }}</a></td>

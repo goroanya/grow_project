@@ -11,7 +11,15 @@
   <tbody>
   {% for d in departments %}
     <tr>
-      <td><button type="button" class="btn btn-danger btn-sm">Delete</button></td>
+      <td>
+        {% set type = "departments" %}
+        {% set id = d.department_id %}
+        {% set name = d.name %}
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_{{ id }}">
+          Delete
+        </button>
+        {% include "modal.html" %}
+      </td>
       <td><a class="text-dark" href="/departments/{{ d.department_id }}">{{ d.name }}</a></td>
       <td>{{ d.average_salary }}$</td>
     </tr>

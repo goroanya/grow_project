@@ -10,8 +10,11 @@
   <p><i>Department: </i><a class="text-dark" href="/departments/{{ department_id }}"><b><u>{{ department_name }}</u></b></a></p>
   <p><i>Salary: </i><b>{{ salary }}$</b></p>
   <p><i>Date of birth: </i><b>{{ date_of_birth }}</b></p>
+  {% set type = "employees" %}
+  {% set id = employee_id %}
+  {% include "modal.html" %}
   <div class="btn-group">
-    <button type="button" class="btn btn-danger">Delete</button>
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal_{{ id }}">Delete</button>
     <button type="button" class="btn btn-success">Edit</button>
   </div>
 </div>

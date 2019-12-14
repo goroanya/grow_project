@@ -36,7 +36,7 @@ def index():
     return redirect('/employees')
 
 
-@APP.route('/employees')
+@APP.route('/employees', methods=['GET'])
 @__error_handler
 def get_employees():
     """Return page with employees list"""
@@ -46,7 +46,7 @@ def get_employees():
                            employees=employees)
 
 
-@APP.route('/employees/<int:employee_id>')
+@APP.route('/employees/<int:employee_id>', methods=['GET'])
 @__error_handler
 def get_employee(employee_id):
     """Return page with employee by given id"""
@@ -56,7 +56,7 @@ def get_employee(employee_id):
                            **employee)
 
 
-@APP.route('/departments')
+@APP.route('/departments', methods=['GET'])
 @__error_handler
 def get_departments():
     """Return page with departments list"""
@@ -66,7 +66,7 @@ def get_departments():
                            departments=departments)
 
 
-@APP.route('/departments/<int:department_id>')
+@APP.route('/departments/<int:department_id>', methods=['GET'])
 @__error_handler
 def get_department(department_id):
     """Return page with employee by given id"""
@@ -74,3 +74,19 @@ def get_department(department_id):
     return render_template('department.html',
                            title=department['name'],
                            **department)
+
+
+@APP.route('/employees/delete/<int:employee_id>', methods=['POST'])
+@__error_handler
+def delete_employee(employee_id):
+    """Delete request handler for employee"""
+    requests.delete_employee(employee_id)
+    return redirect('/employees')
+
+
+@APP.route('/departments/delete/<int:department_id>', methods=['POST'])
+@__error_handler
+def delete_department(department_id):
+    """Delete request handler for employee"""
+    requests.delete_department(department_id)
+    return redirect('/departments')

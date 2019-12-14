@@ -31,9 +31,17 @@ class TestClientApp(unittest.TestCase):
         self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
 
     def test_invalid_index(self):
-        """Test all operation with departments"""
+        """Test get operation with entities"""
         response = self.app.get('/departments/15')
         self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
 
         response = self.app.get('/employees/15')
+        self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
+
+    def test_delete(self):
+        """Test delete operation with entities"""
+        response = self.app.post('/departments/delete/15')
+        self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
+
+        response = self.app.post('/employees/delete/15')
         self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)

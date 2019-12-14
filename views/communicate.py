@@ -63,3 +63,13 @@ def get_department(department_id):
     info = __get_department_info(department['department_id'])
     department.update(info)
     return department
+
+
+def delete_employee(employee_id):
+    """Delete employee by given id"""
+    __requests(requests.delete, f'{SERVER_URL}/employees/{employee_id}')
+
+
+def delete_department(department_id):
+    """Delete employee by given id"""
+    __requests(requests.delete, f'{SERVER_URL}/departments/{department_id}')
