@@ -1,4 +1,4 @@
-"""Module to initialize app"""
+"""Module to initialize server app"""
 import os
 
 from flask import Flask

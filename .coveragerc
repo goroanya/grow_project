@@ -1,6 +1,7 @@
 [run]
 omit =
     venv/*
-    gunicorn_conf.py
     setup.py
+    config.py
     server.py
+    client.py

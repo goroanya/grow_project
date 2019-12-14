@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{%  block css %}
+  <link rel="stylesheet" href="/static/css/profile.css">
+{%  endblock %}
+{%  block content %}
+<div class="card">
+  <img src="/static/images/some_work.jpg" alt="Default department image" style="width:100%">
+  <h1>{{ name }}</h1>
+  <h6><span class="badge badge-secondary">department</span></h6>
+  <p><i>Average salary: </i><b>{{ average_salary }}$</b></p>
+  <p><i>Number of employees: </i><b>{{ employees_count }}</b></p>
+  <div class="btn-group">
+    <button type="button" class="btn btn-danger">Delete</button>
+    <button type="button" class="btn btn-success">Edit</button>
+  </div>
+</div>
+{% endblock %}

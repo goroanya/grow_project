@@ -1,0 +1,32 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>{{ title }}</title>
+  <meta name="description" content="Employees list">
+  <meta name="author" content="Ihor Bulaievskyi">
+
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+  {%  block css %}{%  endblock %}
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Graduation Work</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/employees">Employees</a>
+      </li>
+      <li class="nav-item">
+          <a class="nav-link" href="/departments">Departments</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+{%  block content %}{%  endblock %}
+</body>
+</html>

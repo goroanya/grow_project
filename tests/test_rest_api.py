@@ -57,10 +57,18 @@ class TestRestApi(unittest.TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json, {'department_id': 1, 'name': 'foo'})
 
+        response = self.app.get('/departments/info/1')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json,
+                         {'employees_count': 0, 'average_salary': 0})
+
         response = self.app.delete('/departments/1')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         response = self.app.get('/departments/1')
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+        response = self.app.get('/departments/info/1')
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     def test_all_employees(self):
@@ -89,6 +97,11 @@ class TestRestApi(unittest.TestCase):
         response = self.app.get('/employees/1')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json, employee_data)
+
+        response = self.app.get('/departments/info/1')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json,
+                         {'employees_count': 1, 'average_salary': 150.0})
 
         response = self.app.delete('/employees/1')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
