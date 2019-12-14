@@ -9,7 +9,8 @@ from models import BaseClass, Employee
 class DataBase:
     """Class to work with DB"""
     def __init__(self, db_url):
-        engine = create_engine(db_url)
+        level = 'AUTOCOMMIT' if 'postgres' in db_url else None
+        engine = create_engine(db_url, isolation_level=level)
         BaseClass.metadata.create_all(engine)
         self.session = sessionmaker(engine)()
 
@@ -34,7 +35,6 @@ class DataBase:
     def insert(self, obj):
         """Insert new cls object with fields from values"""
         self.session.add(obj)
-        self.session.commit()
 
     def update(self, cls, criterion, date_of_birth=None, **new_values):
         """Update"""
@@ -45,9 +45,7 @@ class DataBase:
                 setattr(obj, key, value)
             if date_of_birth:
                 setattr(obj, 'date_of_birth', date_of_birth)
-        self.session.commit()
 
     def delete(self, cls, criterion):
         """Delete"""
         self.session.query(cls).filter(criterion).delete()
-        self.session.commit()

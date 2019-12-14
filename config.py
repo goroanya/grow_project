@@ -3,15 +3,21 @@ import os
 import getpass
 
 # Cleaning for not the first run
-os.system('rm *.sock')
 os.system('systemctl kill server')
 os.system('systemctl kill client')
-os.system('rm /etc/systemd/system/server.service')
-os.system('rm /etc/systemd/system/client.service')
-os.system('rm /etc/nginx/sites-available/server')
-os.system('rm /etc/nginx/sites-available/client')
-os.system('rm /etc/nginx/sites-enabled/server')
-os.system('rm /etc/nginx/sites-enabled/client')
+FILES_TO_DELETE = ['server.sock',
+                   'client.sock',
+                   '/etc/systemd/system/server.service',
+                   '/etc/systemd/system/client.service',
+                   '/etc/nginx/sites-available/server',
+                   '/etc/nginx/sites-available/client',
+                   '/etc/nginx/sites-enabled/server',
+                   'etc/nginx/sites-enabled/client']
+for file in FILES_TO_DELETE:
+    try:
+        os.remove(file)
+    except OSError:
+        pass
 
 SERVICE_DESCRIPTION = '''
 [Unit]
@@ -23,7 +29,7 @@ User=$USERNAME
 Group=www-data
 WorkingDirectory=$CWD
 Environment="PATH=$CWD/venv/bin"
-ExecStart=$CWD/venv/bin/gunicorn --log-file client.log --log-level debug --bind unix:$NAME.sock -m 007 $NAME:app
+ExecStart=$CWD/venv/bin/gunicorn --log-file client.log --log-level debug --bind unix:$NAME.sock -m 007 $MODULE_NAME:APP
 
 [Install]
 WantedBy=multi-user.target'''
@@ -34,12 +40,8 @@ USERNAME = getpass.getuser()
 CWD = os.getcwd()
 
 # Creating sockets
-try:
-    socket.socket(socket.AF_UNIX).bind(SERVER_SOCKET_PATH)
-    socket.socket(socket.AF_UNIX).bind(CLIENT_SOCKET_PATH)
-except socket.error:
-    pass
-
+socket.socket(socket.AF_UNIX).bind(SERVER_SOCKET_PATH)
+socket.socket(socket.AF_UNIX).bind(CLIENT_SOCKET_PATH)
 print('Sockets created')
 
 with open('/etc/systemd/system/server.service', 'w') as f:
@@ -47,7 +49,8 @@ with open('/etc/systemd/system/server.service', 'w') as f:
         .replace('$USERNAME', USERNAME) \
         .replace('$CWD', CWD) \
         .replace('$DESCRIPTION', 'Server service') \
-        .replace('$NAME', 'server')
+        .replace('$NAME', 'server') \
+        .replace('$MODULE_NAME', 'rest.app')
     f.write(data)
 
 with open('/etc/systemd/system/client.service', 'w') as f:
@@ -55,7 +58,8 @@ with open('/etc/systemd/system/client.service', 'w') as f:
         .replace('$USERNAME', USERNAME) \
         .replace('$CWD', CWD) \
         .replace('$DESCRIPTION', 'Client service') \
-        .replace('$NAME', 'client')
+        .replace('$NAME', 'client') \
+        .replace('$MODULE_NAME', 'views.app')
     f.write(data)
 
 print('Service information written')
