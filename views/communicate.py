@@ -23,9 +23,13 @@ def __requests(func, *args, **kwargs):
     return response.json()
 
 
-def get_employees():
+def get_employees(start_date=None, end_date=None):
     """Return all employees"""
-    employees = __requests(requests.get, f'{SERVER_URL}/employees')
+    request_str = f'{SERVER_URL}/employees'
+    if start_date and end_date:
+        request_str = f'{request_str}?start_date={start_date}&end_date={end_date}'
+    employees = __requests(requests.get, request_str)
+    print(start_date, end_date, request_str)
     for employee in employees:
         department = get_department(employee['department_id'])
         employee['department_name'] = department['name']

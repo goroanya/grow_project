@@ -2,7 +2,7 @@
 import functools
 import http.client
 
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, request
 from flask_api import status
 
 import views.communicate as requests
@@ -40,10 +40,14 @@ def index():
 @__error_handler
 def get_employees():
     """Return page with employees list"""
-    employees = requests.get_employees()
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+    employees = requests.get_employees(start_date, end_date)
     return render_template('employees.html',
                            title='Employees',
-                           employees=employees)
+                           employees=employees,
+                           start_date=start_date,
+                           end_date=end_date)
 
 
 @APP.route('/employees/<int:employee_id>', methods=['GET'])

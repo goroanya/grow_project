@@ -1,4 +1,5 @@
 """Module with resource classes for employees"""
+from sqlalchemy import and_
 from flask_restful import Resource, marshal_with, fields
 from flask import request
 from flask_api import status
@@ -22,7 +23,15 @@ class EmployeeListAPI(Resource, BaseAPI):
     @marshal_with(_EMPLOYEE_FIELDS)
     def get(self):
         """Return all departments"""
-        employees = self.database.get(Employee)
+        start_date = request.args.get('start_date')
+        end_date = request.args.get('end_date')
+        criterion = None
+        if start_date and end_date:
+            start_date = Employee.date_from_str(start_date)
+            end_date = Employee.date_from_str(end_date)
+            criterion = and_(Employee.date_of_birth >= start_date,
+                             Employee.date_of_birth <= end_date)
+        employees = self.database.get(Employee, criterion)
         return employees
 
     @BaseAPI.handle_error
