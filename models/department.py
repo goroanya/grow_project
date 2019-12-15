@@ -7,10 +7,11 @@ from models.base import BaseClass
 
 class Department(BaseClass):
     """Department class to work with DB using ORM"""
+
     __tablename__ = 'department'
 
     department_id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True)
 
     employees = relationship('Employee')
 

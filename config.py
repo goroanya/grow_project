@@ -29,7 +29,7 @@ User=$USERNAME
 Group=www-data
 WorkingDirectory=$CWD
 Environment="PATH=$CWD/venv/bin"
-ExecStart=$CWD/venv/bin/gunicorn --log-file client.log --log-level debug --bind unix:$NAME.sock -m 007 $MODULE_NAME:APP
+ExecStart=$CWD/venv/bin/gunicorn --log-file $NAME.log --log-level debug --bind unix:$NAME.sock -m 007 $MODULE_NAME:APP
 
 [Install]
 WantedBy=multi-user.target'''
@@ -50,7 +50,7 @@ with open('/etc/systemd/system/server.service', 'w') as f:
         .replace('$CWD', CWD) \
         .replace('$DESCRIPTION', 'Server service') \
         .replace('$NAME', 'server') \
-        .replace('$MODULE_NAME', 'rest.app')
+        .replace('$MODULE_NAME', 'rest')
     f.write(data)
 
 with open('/etc/systemd/system/client.service', 'w') as f:
@@ -59,7 +59,7 @@ with open('/etc/systemd/system/client.service', 'w') as f:
         .replace('$CWD', CWD) \
         .replace('$DESCRIPTION', 'Client service') \
         .replace('$NAME', 'client') \
-        .replace('$MODULE_NAME', 'views.app')
+        .replace('$MODULE_NAME', 'views')
     f.write(data)
 
 print('Service information written')

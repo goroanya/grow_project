@@ -45,3 +45,19 @@ class TestClientApp(unittest.TestCase):
 
         response = self.app.post('/employees/delete/15')
         self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
+
+    def test_add_page(self):
+        """Test get new entity page"""
+        response = self.app.get('/departments/new')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        response = self.app.get('/employees/new')
+        self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
+
+    def test_edit_page(self):
+        """Test get edit entity page"""
+        response = self.app.get('/departments/edit/1')
+        self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)
+
+        response = self.app.get('/employees/edit/1')
+        self.assertEqual(response.status_code, status.HTTP_502_BAD_GATEWAY)

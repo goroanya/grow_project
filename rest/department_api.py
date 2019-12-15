@@ -18,16 +18,19 @@ class DepartmentListAPI(Resource, BaseAPI):
     @BaseAPI.handle_error
     @marshal_with(_DEPARTMENT_FIELDS)
     def get(self):
-        """Return all departments"""
+        """Return all departments
+        @return: list of all departments in json
+        """
         departments = self.database.get(Department)
         return departments
 
     @BaseAPI.handle_error
     def post(self):
-        """Create new department"""
-        department = Department(**request.form)
-        self.database.insert(department)
-        return {'success': True}
+        """Create new department
+        @return: result and new department id
+        """
+        department = self.database.insert(Department(**request.form))
+        return {'success': True, 'department_id': department.department_id}
 
 
 class DepartmentAPI(Resource, BaseAPI):
@@ -36,7 +39,10 @@ class DepartmentAPI(Resource, BaseAPI):
     @BaseAPI.handle_error
     @marshal_with(_DEPARTMENT_FIELDS)
     def get(self, department_id):
-        """Return department """
+        """Return department
+        @param department_id: unique department's id
+        @return: return department for given id
+        """
         criterion = Department.department_id == department_id
         department = self.database.get_one(cls=Department,
                                            criterion=criterion)
@@ -46,14 +52,20 @@ class DepartmentAPI(Resource, BaseAPI):
 
     @BaseAPI.handle_error
     def put(self, department_id):
-        """Update department"""
+        """Update department
+        @param department_id: unique department's id
+        @return: result
+        """
         criterion = Department.department_id == department_id
         self.database.update(Department, criterion, **request.form)
         return {'success': True}
 
     @BaseAPI.handle_error
     def delete(self, department_id):
-        """Update department"""
+        """Delete department
+        @param department_id: unique department's id
+        @return: result
+        """
         criterion = Department.department_id == department_id
         self.database.delete(Department, criterion)
         return {'success': True}
@@ -64,7 +76,10 @@ class DepartmentInfoAPI(Resource, BaseAPI):
 
     @BaseAPI.handle_error
     def get(self, department_id):
-        """Get detailed department info"""
+        """Get detailed department info
+        @param department_id: unique department's id
+        @return: average salary and number of employees
+        """
         criterion = Department.department_id == department_id
         department = self.database.get_one(cls=Department,
                                            criterion=criterion)

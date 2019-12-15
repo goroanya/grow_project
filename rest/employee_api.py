@@ -22,7 +22,9 @@ class EmployeeListAPI(Resource, BaseAPI):
     @BaseAPI.handle_error
     @marshal_with(_EMPLOYEE_FIELDS)
     def get(self):
-        """Return all departments"""
+        """Return all employees
+        @return: list of all employees in json
+        """
         start_date = request.args.get('start_date')
         end_date = request.args.get('end_date')
         criterion = None
@@ -36,10 +38,11 @@ class EmployeeListAPI(Resource, BaseAPI):
 
     @BaseAPI.handle_error
     def post(self):
-        """Create new employee"""
-        employee = Employee(**request.form)
-        self.database.insert(employee)
-        return {'success': True}
+        """Create new employee
+        @return: result and new employee's id
+        """
+        employee = self.database.insert(Employee(**request.form))
+        return {'success': True, 'employee_id': employee.employee_id}
 
 
 class EmployeeAPI(Resource, BaseAPI):
@@ -48,7 +51,10 @@ class EmployeeAPI(Resource, BaseAPI):
     @BaseAPI.handle_error
     @marshal_with(_EMPLOYEE_FIELDS)
     def get(self, employee_id):
-        """Return employee"""
+        """Return employee
+        @param employee_id: unique employee's id
+        @return: result
+        """
         criterion = Employee.employee_id == employee_id
         employee = self.database.get_one(cls=Employee,
                                          criterion=criterion)
@@ -58,14 +64,20 @@ class EmployeeAPI(Resource, BaseAPI):
 
     @BaseAPI.handle_error
     def put(self, employee_id):
-        """Update employee"""
+        """Update employee
+        @param employee_id: unique employee's id
+        @return: result
+        """
         criterion = Employee.employee_id == employee_id
         self.database.update(Employee, criterion, **request.form)
         return {'success': True}
 
     @BaseAPI.handle_error
     def delete(self, employee_id):
-        """Update employee"""
+        """Delete employee
+        @param employee_id: unique employee's id
+        @return: result
+        """
         criterion = Employee.employee_id == employee_id
         self.database.delete(Employee, criterion)
         return {'success': True}

@@ -86,9 +86,15 @@ class TestRestApi(unittest.TestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         employee_data['employee_id'] = 1
-        response = self.app.get('/employees')
+        response = self.app.get(
+            '/employees?start_date=1999-01-01&end_date=2001-01-01')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.json, [employee_data])
+
+        response = self.app.get(
+            '/employees?start_date=2000-02-02&end_date=2001-01-01')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json, [])
 
         response = self.app.put('/employees/1', data={'name': 'foo'})
         self.assertEqual(response.status_code, status.HTTP_200_OK)

@@ -8,12 +8,17 @@ class BaseAPI:
     """Base resource class"""
     @property
     def database(self):
-        """Return DB instance"""
+        """Return DB instance
+        @return: current DB instance for REST flask app
+        """
         return APP.config['DATABASE']
 
     @staticmethod
     def handle_error(func):
-        """Decorator for handling errors"""
+        """Decorator for handling errors
+        @param func: function to execute
+        @return: result of calling given function
+        """
 
         def wrapper(*args, **kwargs):
             try:

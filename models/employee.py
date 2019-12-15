@@ -8,6 +8,7 @@ from models.base import BaseClass
 
 class Employee(BaseClass):
     """Employee class to work with DB using ORM"""
+
     __tablename__ = 'employee'
 
     employee_id = Column(Integer, primary_key=True)
@@ -28,6 +29,9 @@ class Employee(BaseClass):
 
     @staticmethod
     def date_from_str(str_object):
-        """Convert string to date"""
+        """Convert string to date
+        @param str_object: date string in format yyyy-mm-dd
+        @return: date object from specified string
+        """
         year, month, day = str(str_object).split('-')
         return datetime.date(int(year), int(month), int(day))

@@ -101,7 +101,8 @@ class TestDataBase(unittest.TestCase):
         """Test for inserting and deleting both employee and department"""
         new_employee = Employee('new employee', date(2000, 1, 1), 150, 1)
         employee_criretion = Employee.name == 'new employee'
-        self.database.insert(new_employee)
+        inserted_employee = self.database.insert(new_employee)
+        self.assertIsNotNone(inserted_employee.employee_id)
         from_database = self.database.get_one(cls=Employee,
                                               criterion=employee_criretion)
         self.assertEqual(new_employee, from_database)
@@ -113,7 +114,8 @@ class TestDataBase(unittest.TestCase):
 
         new_department = Department('new department')
         department_criterion = Department.name == 'new department'
-        self.database.insert(new_department)
+        inserted_department = self.database.insert(new_department)
+        self.assertIsNotNone(inserted_department.department_id)
         from_database = self.database.get_one(cls=Department,
                                               criterion=department_criterion)
         self.assertEqual(new_department, from_database)
