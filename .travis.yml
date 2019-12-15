@@ -1,13 +1,8 @@
 language: python
 python:
   - "3.8"
-# command to install dependencies
 install:
-  - virtualenv -p python3.8 venv
-  - sudo apt-get -y install nginx
-  - pip install -r requirements.txt
-  - sudo python config.py
-# command to run tests
+  - sh setup.sh
 script:
   - python -m pytest tests/ --cov=.
 after_success:
