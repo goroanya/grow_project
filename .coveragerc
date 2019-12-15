@@ -1,0 +1,7 @@
+[run]
+omit =
+    venv/*
+    setup.py
+    config.py
+    server.py
+    client.py

@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+{% block content %}
+<form method="post" action="/employees/edit/{{ employee.employee_id }}" enctype="multipart/form-data">
+  <div class="form-group">
+    <label for="nameInput">Name:</label>
+    <input pattern="{A-Za-z }" type="text" value="{{ employee.name }}" class="form-control" id="nameInput" name="name" placeholder="Enter employee name" required>
+  </div>
+  <div class="form-group">
+    <label for="departmentInput">Departments:</label>
+    <select class="custom-select form-control" id="departmentInput" name="department_id" required>
+      {% for d in departments %}
+      <option {% if employee.department_id == d.department_id %}selected{% endif %} value="{{ d.department_id }}">{{ d.name }}</option>
+      {% endfor %}
+    </select>
+    <small class="form-text text-muted">Choose departments from list of existing ones</small>
+  </div>
+  <div class="form-group">
+    <label for="salaryInput">Salary:</label>
+    <input value="{{ employee.salary }}" type="number" min="0" class="form-control" id="salaryInput" name="salary" placeholder="Enter salary amount" required>
+  </div>
+  <div class="form-group">
+    <label for="dateInput">Date of birth:</label>
+    <input value="{{ employee.date_of_birth }}" class="form-control" type="date" id="dateInput" name="date_of_birth" required>
+  </div>
+  <div class="form-group">
+    <div class="custom-file">
+      <label class="custom-file-label" for="pictureInput">Choose user picture:</label>
+      <input type="file" name="user_pic" class="custom-file-input" id="pictureInput">
+    </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{%  endblock %}

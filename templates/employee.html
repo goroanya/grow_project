@@ -1,0 +1,21 @@
+{% extends "index.html" %}
+{%  block css %}
+  <link rel="stylesheet" href="/static/css/profile.css">
+{%  endblock %}
+{%  block content %}
+<div class="card">
+  <img src="{{ user_pic }}" alt="User pictire" style="width:100%">
+  <h1>{{ name }}</h1>
+  <h6><span class="badge badge-secondary">employee</span></h6>
+  <p><i>Department: </i><a class="text-dark" href="/departments/{{ department_id }}"><b><u>{{ department_name }}</u></b></a></p>
+  <p><i>Salary: </i><b>{{ salary }}$</b></p>
+  <p><i>Date of birth: </i><b>{{ date_of_birth }}</b></p>
+  {% set type = "employees" %}
+  {% set id = employee_id %}
+  {% include "modal.html" %}
+  <div class="btn-group">
+    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal_{{ id }}">Delete</button>
+    <button type="submit" class="btn btn-success"><a href="/employees/edit/{{ employee_id }}" class="text-white">Edit</a></button>
+  </div>
+</div>
+{% endblock %}

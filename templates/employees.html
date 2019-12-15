@@ -1,0 +1,51 @@
+{% extends "index.html" %}
+{%  block content %}
+<div class="row">
+  <div class="col">
+    <form method="get" action="/employees/new" class="form-group">
+      <button type="submit" class="btn btn-success">+</button>
+    </form>
+  </div>
+    <form method="get" action="/employees" class="form-group row">
+    <div class="col">
+      <input required class="form-control" type="date" value="{{ start_date }}" name="start_date">
+    </div>
+    <div class="col">
+      <input required class="form-control" type="date" value="{{ end_date }}" name="end_date">
+    </div>
+    <div class="col">
+      <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+    </form>
+</div>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col"> </th>
+      <th scope="col">Name</th>
+      <th scope="col">Department</th>
+      <th scope="col">Salary</th>
+      <th scope="col">Date of birth</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for e in employees %}
+    <tr>
+      <td>
+        {% set type = "employees" %}
+        {% set id = e.employee_id %}
+        {% set name = e.name %}
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal_{{ id }}">
+          Delete
+        </button>
+        {% include "modal.html" %}
+      </td>
+      <td><a class="text-dark" href="/employees/{{ e.employee_id }}">{{ e.name }}</a></td>
+      <td><a class="text-dark" href="/departments/{{ e.department_id }}">{{ e.department_name }}</a></td>
+      <td>{{ e.salary }}$</td>
+      <td>{{ e.date_of_birth }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

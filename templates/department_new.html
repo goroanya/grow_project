@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block content %}
+<form method="post" action="/departments/new">
+  <div class="form-group">
+    <label for="nameInput">Name:</label>
+    <input pattern="{A-Za-z }" type="text" class="form-control" id="nameInput" name="name" placeholder="Enter department name" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{%  endblock %}

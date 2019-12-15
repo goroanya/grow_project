@@ -1,0 +1,10 @@
+{% extends "index.html" %}
+{% block content %}
+<form method="post" action="/departments/edit/{{ department.department_id }}">
+  <div class="form-group">
+    <label for="nameInput">Name:</label>
+    <input value="{{ department.name }}" pattern="{A-Za-z }" type="text" class="form-control" id="nameInput" name="name" placeholder="Enter department name" required>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+{%  endblock %}
