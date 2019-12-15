@@ -108,8 +108,4 @@ print('Starting services...')
 os.system('ln -s /etc/nginx/sites-available/server /etc/nginx/sites-enabled')
 os.system('ln -s /etc/nginx/sites-available/client /etc/nginx/sites-enabled')
 os.system('systemctl daemon-reload')
-os.system('systemctl start server')
-os.system('systemctl start client')
 os.system('systemctl restart nginx')
-
-print('Server run at: http://server.test', 'Client run at: http://client.test')
