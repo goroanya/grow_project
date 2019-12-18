@@ -134,7 +134,7 @@ def _save_user_pic(employee_id, file):
     extension = filename.lower().split('.')[-1]
     if extension not in storage.ALLOWED_EXTENSIONS:
         raise storage.RequestException(status.HTTP_400_BAD_REQUEST)
-    file.save(os.path.join('static/images/employees/', f'{employee_id}.{extension}'))
+    file.save(os.path.join('static/images/employees/', f'{employee_id}.png'))
 
 
 @APP.route('/employees/new', methods=['POST'])

@@ -106,5 +106,5 @@ venv.bak/
 .idea/
 data.log
 
-static/images/employees/*
+static/images/employees/*.png
 

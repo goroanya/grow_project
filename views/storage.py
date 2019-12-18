@@ -17,8 +17,6 @@ if not SERVER_URL:
     APP.config['DATABASE'] = DataBase('sqlite:///')
     requests = APP.test_client()
 
-print('\n\n\n\n\n', requests, '\n\n\n\n\n')
-
 
 class RequestException(Exception):
     """Default exception to raise when request failed"""
@@ -62,11 +60,9 @@ def get_employee(employee_id):
     employee['department_name'] = department['name']
 
     employee['user_pic'] = '/static/images/userpic.jpg'
-    for extension in ALLOWED_EXTENSIONS:
-        path = f'static/images/employees/{employee["employee_id"]}.{extension}'
-        if os.path.exists(path):
-            employee['user_pic'] = f'/{path}'
-            break
+    path = f'static/images/employees/{employee["employee_id"]}.png'
+    if os.path.exists(path):
+        employee['user_pic'] = f'/{path}'
 
     return employee
 
