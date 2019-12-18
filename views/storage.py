@@ -4,11 +4,20 @@ import os
 import requests
 from flask_api import status
 from dotenv import load_dotenv
+from flask.testing import FlaskClient
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 
 load_dotenv()
-SERVER_URL = os.getenv('SERVER_URL') or 'http://server.test'
+SERVER_URL = os.getenv('SERVER_URL')
+if not SERVER_URL:
+    SERVER_URL = ''
+    from rest import APP
+    from service import DataBase
+    APP.config['DATABASE'] = DataBase('sqlite:///')
+    requests = APP.test_client()
+
+print('\n\n\n\n\n', requests, '\n\n\n\n\n')
 
 
 class RequestException(Exception):
@@ -22,6 +31,8 @@ def __requests(func, url, *args, **kwargs):
     response = func(f'{SERVER_URL}{url}', *args, **kwargs)
     if response.status_code != status.HTTP_200_OK:
         raise RequestException(error_code=response.status_code)
+    if isinstance(requests, FlaskClient):
+        return response.json
     return response.json()
 
 

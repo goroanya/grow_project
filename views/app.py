@@ -144,7 +144,7 @@ def add_employee():
     @return: redirect to created employee's page
     """
     employee_id = storage.insert_employee(request.form)
-    if request.files['user_pic']:
+    if 'user_pic' in request.files and request.files['user_pic']:
         _save_user_pic(employee_id, request.files['user_pic'])
     return redirect(f'/employees/{employee_id}')
 
@@ -172,7 +172,7 @@ def edit_employee(employee_id):
     @return: redirect to edited employee's page
     """
     storage.edit_employee(employee_id, request.form)
-    if request.files['user_pic']:
+    if 'user_pic' in request.files and request.files['user_pic']:
         _save_user_pic(employee_id, request.files['user_pic'])
     return redirect(f'/employees/{employee_id}')
 

@@ -39,6 +39,14 @@ class TestDataBase(unittest.TestCase):
         departments = self.database.get(Department)
         self.assertEqual(departments, DEPARTMENTS)
 
+    def test_get_one_invalid_index(self):
+        """Test case to check getting entities with invalid criterion"""
+        employee = self.database.get_one(cls=Employee, criterion=False)
+        self.assertIsNone(employee)
+
+        department = self.database.get_one(cls=Department, criterion=False)
+        self.assertIsNone(department)
+
     def test_filtered_get(self):
         """Test case to check getting entities from DB with filters"""
         from_database = self.database.get(Employee, False)
@@ -99,10 +107,19 @@ class TestDataBase(unittest.TestCase):
 
     def test_simple_insert_and_delete(self):
         """Test for inserting and deleting both employee and department"""
+        new_department = Department('new department')
+        department_criterion = Department.name == 'new department'
+        inserted_department = self.database.insert(new_department)
+        self.assertIsNotNone(inserted_department.department_id)
+        from_database = self.database.get_one(cls=Department,
+                                              criterion=department_criterion)
+        self.assertEqual(new_department, from_database)
+
         new_employee = Employee('new employee', date(2000, 1, 1), 150, 1)
-        employee_criretion = Employee.name == 'new employee'
         inserted_employee = self.database.insert(new_employee)
         self.assertIsNotNone(inserted_employee.employee_id)
+
+        employee_criretion = Employee.name == 'new employee'
         from_database = self.database.get_one(cls=Employee,
                                               criterion=employee_criretion)
         self.assertEqual(new_employee, from_database)
@@ -111,14 +128,6 @@ class TestDataBase(unittest.TestCase):
         from_database = self.database.get_one(cls=Employee,
                                               criterion=employee_criretion)
         self.assertIsNone(from_database)
-
-        new_department = Department('new department')
-        department_criterion = Department.name == 'new department'
-        inserted_department = self.database.insert(new_department)
-        self.assertIsNotNone(inserted_department.department_id)
-        from_database = self.database.get_one(cls=Department,
-                                              criterion=department_criterion)
-        self.assertEqual(new_department, from_database)
 
         self.database.delete(cls=Department, criterion=department_criterion)
         from_database = self.database.get_one(cls=Department,

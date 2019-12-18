@@ -78,6 +78,7 @@ server {
     server_name $NAME.test;
 
     location / {
+        root $CWD/;
         proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
         proxy_set_header Host \$http_host;
         proxy_redirect off;
@@ -98,7 +99,7 @@ os.system(f'sudo sh -c \'printf "{data}" > /etc/nginx/sites-available/server\'')
 data = NGINX_DESCRIPTION.replace('$CWD', CWD).replace('$NAME', 'client')
 os.system(f'sudo sh -c \'printf "{data}" > /etc/nginx/sites-available/client\'')
 
-HOSTS_LINE = '127.0.1.1 client.test server.test'
+HOSTS_LINE = '127.0.0.1 client.test server.test'
 with open('/etc/hosts', 'r') as f:
     data = f.read()
     if HOSTS_LINE not in data:
