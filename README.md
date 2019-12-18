@@ -11,8 +11,15 @@ Create a simple web application for managing departments and employees. The web 
 2. display a list of employees in the departments with an indication of the salary for each employee and a search field to search for employees born on a certain date or in the period between dates
 3. change (add / edit / delete) the above data
 
-## Usage
-- To build project: `sh setup.sh`
+## How to build
+- Install python 3.5 or later
+- Install nginx to your system: 
+`sudo apt-get install nginx`
+- Activate your virtual environment (optionally)
+- Move to the project root directory and install python dependencies: 
+`pip install -r requirements.txt`
+- Configure nginx services by running:
+`python config.py`
 - To start application: `sudo systemctl start server.service client.service`. After that server and client will be available at http://server.test and http://client.test
 
 #####Author
